@@ -26,29 +26,10 @@ let map = L.map('mapid', {
     layers: [streets]
 });
 
-// Accessing the Toronto neighborhoods GeoJSON URL.
-let torontoHoods = "https://raw.githubusercontent.com/ipbrieske/Mapping_Earthquakes/main/torontoNeighborhoods.json";
-
-//styling the neighborhood borders
-var myStyle = {
-    "color": "blue", 
-    "fillColor": "yellow", 
-    "opacity": 0.5, 
-    "weight": 1, 
-    "stroke": "black"
-};
-
-//Grabbing our GeoJSON Data
-d3.json(torontoHoods).then(function(data) {
-    console.log(data.features);
-    //Creating a GeoJSON layer with the retrieved data
-    for (var i = 0; i < data.features.length; i++) {
-        L.geoJSON(data.features[i], {
-            style: myStyle
-        })
-        .bindPopup("<h3>Neighborhood: " + data.features[i].properties.AREA_NAME)
-        .addTo(map);
-    };
+// Retrieve the earthquake GeoJSON data.
+d3.json("https://earthquake.usgs.gov/earthquakes/feed/v1.0/summary/all_week.geojson").then(function(data) {
+  // Creating a GeoJSON layer with the retrieved data.
+  L.geoJSON(data).addTo(map);
 });
 
 // Then we add our controller with map layers
