@@ -34,10 +34,12 @@ L.control.layers(baseMaps).addTo(map);
 let airportData = "https://raw.githubusercontent.com/ipbrieske/Mapping_Earthquakes/main/majorAirports.json";
 
 // Grabbing our GeoJSON data.
-d3.json(airportData).then(function(data) {
-  console.log(data);
+d3.json(airportData).then(data => {
   //Creating a GeoJSON layer with the retrieved data
-  L.geoJSON(data)
-  .bindPopup("<h3>Airport Code: " + data.location)
-  .addTo(map);
+  for (let i = 0; i < data.features.length; i++) {
+    console.log(data.features[i]);
+    L.geoJSON(data.features[i])
+    .bindPopup("<h2>Airport Code: " + data.features[i].properties.faa + "</h2> <hr> <h3>Airport Name: " + data.features[i].properties.name + "</h3>") 
+    .addTo(map);
+  };
 });
